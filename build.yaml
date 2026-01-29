@@ -29,8 +29,8 @@ include:
 #    shield: cheap03xD_right
 
 # Comb03xD
-  - board: nice_nano_v2
-    shield: comb03xD
+#  - board: nice_nano_v2
+#    shield: comb03xD
 
 # Macr03xD
 #  - board: nice_nano_v2
@@ -67,10 +67,10 @@ include:
 #    shield: sten03xD_right
 
 #Crab03xD
-#  - board: nice_nano_v2
-#    shield: crab03xD
-#    snippet: studio-rpc-usb-uart
-#    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: nice_nano_v2
+    shield: crab03xD
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
   
 #RESET
   - board: nice_nano_v2

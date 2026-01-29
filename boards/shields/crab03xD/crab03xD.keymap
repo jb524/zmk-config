@@ -45,8 +45,8 @@
         default_layer { // Layer 0
             display-name = "Base";
             bindings = <
-                &kp C_PREV    &kp C_VOL_UP    &kp C_VOL_DN    &kp C_NEXT    
-
+                //&kp C_PREV    &kp C_VOL_UP    &kp C_VOL_DN    &kp C_NEXT
+                &kp N1    &kp N2    &kp N3    &kp N4        
             >;
         };
         
