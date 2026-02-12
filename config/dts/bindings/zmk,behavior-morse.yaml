@@ -1,6 +1,6 @@
 compatible: "zmk,behavior-morse"
 
-include: behavior.yaml
+include: zmk/behavior.yaml
 
 properties:
   label:
