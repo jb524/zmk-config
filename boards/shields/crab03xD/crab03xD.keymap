@@ -16,7 +16,7 @@
         combo_rewind {
             timeout-ms = <50>;
             key-positions = <0 1>;
-            bindings = <&kp C_FF>;
+            bindings = <&kp C_RW>;
         };
         
         combo_pause_play {

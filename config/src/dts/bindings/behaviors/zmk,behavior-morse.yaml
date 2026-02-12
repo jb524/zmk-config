@@ -1,0 +1,9 @@
+compatible: "zmk,behavior-morse"
+
+include: behavior.yaml
+
+properties:
+  label:
+    type: string
+    required: true
+
