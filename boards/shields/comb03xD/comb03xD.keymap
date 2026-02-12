@@ -30,12 +30,6 @@
             tapping-term-ms = <200>;
             bindings = <&sk LSHIFT>, <&sk LCTRL>, <&sk LALT>, <&sk LGUI>;
         };
-        
-        morse: morse {
-            compatible = "zmk,behavior-morse";
-            label = "MORSE";
-            #binding-cells = <0>;
-        };
     };
 
     combos {
@@ -205,8 +199,7 @@
 
         base_layer {
             display-name = "Base";
-//            bindings = < &kp O    &kp A    &kp E    &kp T   &kp SPACE >;
-            bindings = < &kp O    &kp A    &kp E    &kp T   &morse >;
+            bindings = < &kp O    &kp A    &kp E    &kp T   &kp SPACE >;
         };
         
         tapdance_layer {
