@@ -1,0 +1,6 @@
+if SHIELD_MCUTESTER
+
+config ZMK_KEYBOARD_NAME 
+    default "McuTester"
+
+endif
