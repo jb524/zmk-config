@@ -93,14 +93,14 @@
         config_layer { //layer 3
             display-name = "Config";
             bindings = <
-                &bootloader    &studio_unlock    &none    &bt BT_DISC 0    &bt BT_SEL 0        
-                &none          &none             &none    &none    &bootloader  
+                &bootloader    &studio_unlock    &none    &none    &bt BT_SEL 0        
+                &bt BT_DISC 0          &none             &none    &none    &bootloader  
 
-                &bt BT_CLR_ALL    &none    &none    &bt BT_DISC 1    &bt BT_SEL 1         
-                &none    &none    &none    &none    &none   
+                &bt BT_CLR_ALL    &none    &none    &none    &bt BT_SEL 1         
+                &bt BT_DISC 1    &none    &none    &none    &none   
 
-                &bt BT_CLR    &none    &none    &bt BT_DISC 2    &bt BT_SEL 2       
-                &none         &none    &none    &none    &none   
+                &bt BT_CLR    &none    &none    &none    &bt BT_SEL 2       
+                &bt BT_DISC 2         &none    &none    &none    &none   
 
                 &none   &none    &none 
                 &none   &none    &none               
