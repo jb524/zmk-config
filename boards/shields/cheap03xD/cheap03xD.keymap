@@ -4,6 +4,10 @@
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/behaviors.h>
 
+
+#include <behaviors/morse.dtsi> // include for the morse reference
+#include <behaviors/ceasar.dtsi> // include for the ceasar reference
+
 #define BASE 0
 #define SYMB 1
 #define NAVI 2
