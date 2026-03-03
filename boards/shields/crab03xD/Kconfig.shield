@@ -1,2 +1,3 @@
 config SHIELD_CRAB03XD
-    def_bool $(shields_list_contains,crab03xD)
+    def_bool $(shields_list_contains,crab03xD
+    select ZMK_BOARD_COMPAT)

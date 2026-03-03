@@ -1,2 +1,3 @@
 config SHIELD_MCUTESTER
     def_bool $(shields_list_contains,mcuTester)
+    select ZMK_BOARD_COMPAT

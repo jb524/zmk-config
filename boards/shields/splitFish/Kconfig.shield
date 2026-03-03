@@ -1,7 +1,9 @@
 # No whitespace after the comma or in your part name!
 config SHIELD_SPLITFISH_LEFT
     def_bool $(shields_list_contains,splitfish_left)
+    select ZMK_BOARD_COMPAT
 
 # No whitespace after the comma or in your part name!
 config SHIELD_SPLITFISH_RIGHT
     def_bool $(shields_list_contains,splitfish_right)
+    select ZMK_BOARD_COMPAT

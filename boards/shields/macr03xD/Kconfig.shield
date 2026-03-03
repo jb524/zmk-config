@@ -1,2 +1,3 @@
 config SHIELD_MACR03XD
     def_bool $(shields_list_contains,macr03xD)
+    select ZMK_BOARD_COMPAT
