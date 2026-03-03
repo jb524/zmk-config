@@ -43,12 +43,12 @@
         };
         
         combo_CtrlTab {
-            timeout-ms = <50>;
+            timeout-ms = <30>;
             key-positions = <21 22 23>;
             bindings = <&kp LC(TAB)>;
         };
         combo_AltTab {
-            timeout-ms = <50>;
+            timeout-ms = <30>;
             key-positions = <26 27 28>;
             bindings = <&kp LA(TAB)>;
         };
@@ -68,6 +68,14 @@
             bindings = <&kp>, <&kp>;
             tapping-term-ms = <220>;
         };
+        
+        mt_b: mod_tap_balanced {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+	    flavor = "balanced";
+            bindings = <&kp>, <&kp>;
+            tapping-term-ms = <220>;
+        };
     };
 
     keymap {
@@ -83,8 +91,8 @@
                 &kp A    &kp S    &kp D    &kp F    &kp G                   
                 &kp H    &kp J    &kp K    &kp L    &kp SEMICOLON
                 
-                &mt LGUI Z    &kp X    &kp C        &kp V      &kp B                   
-                &kp N    &kp M    &kp COMMA    &kp DOT    &mt LALT  SLASH
+                &mt_b LGUI Z    &kp X    &kp C        &kp V      &kp B                   
+                &kp N    &kp M    &kp COMMA    &kp DOT    &mt_b LALT  SLASH
                 
                 &mo NAVI     &mo SYMB      &mt LCTRL TAB    
                 &td_shift    &kp SPACE     &mt LCTRL RET
