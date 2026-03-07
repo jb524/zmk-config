@@ -13,7 +13,7 @@ manifest:
       remote: zmkfirmware
       import: app/west.yml
     # Adding my own custom behavior
-    - name: zmk-behavior-morse
+    - name: zmk-module-lander03xD
       remote: lander03xd
       revision: main
       path: modules/zmk-module-lander03xd
