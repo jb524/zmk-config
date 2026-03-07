@@ -6,6 +6,7 @@
 
 #include <behaviors/morse.dtsi> // include for the morse reference
 #include <behaviors/ceasar.dtsi> // include for the ceasar reference
+#include <behaviors/noise.dtsi> // include for the ceasar reference
 
 #define BASE 0
 #define SYMB 1
@@ -142,7 +143,7 @@
                 &bt BT_DISC 1    &none    &none    &none    &ceasar   
 
                 &bt BT_CLR    &none    &none    &none   &bt BT_SEL 2       
-                &bt BT_DISC 2          &none    &none    &none    &morse   
+                &bt BT_DISC 2          &none    &none    &noise    &morse   
 
                 &none   &none    &none 
                 &none   &none    &none               
