@@ -2,7 +2,7 @@ if SHIELD_STEN03xD_LEFT
 
 # Name must be less than 16 characters long!
 config ZMK_KEYBOARD_NAME
-    default "Sten03xD"
+    default "sten03xD"
 
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
