@@ -1,9 +1,9 @@
-if SHIELD_STEN03xD_LEFT
+if SHIELD_STEN03XD_LEFT
 
-# Name must be less than 16 characters long!
 config ZMK_KEYBOARD_NAME
     default "sten03xD"
 
+#currently central is the left side
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
@@ -13,6 +13,11 @@ if SHIELD_STEN03XD_LEFT || SHIELD_STEN03XD_RIGHT
 
 config ZMK_SPLIT
     default y
+    
+#sleep settings
+#Idle
+config ZMK_IDLE_TIMEOUT
+    default 20000
 
 endif
-
+	
