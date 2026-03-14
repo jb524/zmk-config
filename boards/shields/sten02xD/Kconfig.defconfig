@@ -1,0 +1,23 @@
+if SHIELD_STEN02XD_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "sten02xD"
+
+#currently central is the left side
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_STEN02XD_LEFT || SHIELD_STEN02XD_RIGHT
+
+config ZMK_SPLIT
+    default y
+    
+#sleep settings
+#Idle
+config ZMK_IDLE_TIMEOUT
+    default 20000
+
+endif
+	
