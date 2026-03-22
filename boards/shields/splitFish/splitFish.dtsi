@@ -6,7 +6,7 @@
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
         wakeup-source;
-        poll-period-ms = <20>;
+        poll-period-ms = <25>;
 
     };
     
