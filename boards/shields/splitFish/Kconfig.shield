@@ -5,3 +5,4 @@ config SHIELD_SPLITFISH_LEFT
 # No whitespace after the comma or in your part name!
 config SHIELD_SPLITFISH_RIGHT
     def_bool $(shields_list_contains,splitFish_right)
+    
