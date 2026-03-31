@@ -194,7 +194,7 @@
             timeout-ms = <100>;
             key-positions = <2 3 4>;
             layer = <0>;
-            bindings = <&kpsk CAPS LS >; //requires custom behavior
+            bindings = <&kpsk CAPS LSHIFT >; //requires custom behavior
         };
         
         combo_123 {
