@@ -211,13 +211,6 @@
             bindings = <&ts SWITCH SWITCH >;
         };
         
-        combo_2_012 {
-            timeout-ms = <100>;
-            key-positions = <0 1 2>;
-            layer = <1>; //this needs to be active on both layers
-            bindings = <&ts SWITCH SWITCH >;
-        };
-        
         combo_01234 {
             timeout-ms = <100>;
             key-positions = <0 1 2 3 4>;
