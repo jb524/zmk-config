@@ -33,6 +33,11 @@ include:
 #  - board: nice_nano_v2
 #    shield: comb03xD
 
+# Chord03xD
+  - board: nice_nano_v2
+    shield: chord03xD
+    snippet: zmk-usb-logging
+
 # Macr03xD
 #  - board: nice_nano_v2
 #    shield: macr03xD
@@ -40,12 +45,12 @@ include:
 #    cmake-args: -DCONFIG_ZMK_STUDIO=y
 
 # SplitFish
-  - board: nice_nano_v2
-    shield: splitFish_left
-    snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y
-  - board: nice_nano_v2
-    shield: splitFish_right
+#  - board: nice_nano_v2
+#    shield: splitFish_left
+#    snippet: studio-rpc-usb-uart
+#    cmake-args: -DCONFIG_ZMK_STUDIO=y
+#  - board: nice_nano_v2
+#    shield: splitFish_right
     
 # Numer03xD
 #  - board: nice_nano_v2
