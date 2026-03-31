@@ -39,364 +39,364 @@
         combo_34 {
             timeout-ms = <100>; // 100 ms to press all keys
             bindings = <&mt HOME N>; // output of the combo
-            layer = <0>; //layers where the combo can be activated
+            layers = <0>; //layers where the combo can be activated
             key-positions = <3 4>; // keys used in combo trigger
         };
         
         combo_23 {
             timeout-ms = <100>;
             key-positions = <2 3>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt PG_UP T>;
         };
         
         combo_12 {
             timeout-ms = <100>;
             key-positions = <1 2>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt END L>;
         };
         
         combo_01 {
             timeout-ms = <100>;
             key-positions = <0 1>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(N9) S>;
         };
         
         combo_24 {
             timeout-ms = <100>;
             key-positions = <2 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(DOT) D>;
         };
         
         combo_13 {
             timeout-ms = <100>;
             key-positions = <1 3>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(COMMA) M>;
         };
         
         combo_02 {
             timeout-ms = <100>;
             key-positions = <0 2>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(N8) Z>;
         };
         
         combo_14 {
             timeout-ms = <100>;
             key-positions = <1 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt PG_DN K>;
         };
         
         combo_03 {
             timeout-ms = <100>;
             key-positions = <0 3>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(N7) B>;
         };
         
         combo_04 {
             timeout-ms = <100>;
             key-positions = <0 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(N6) Y>;
         };
         
         combo_024 {
             timeout-ms = <100>;
             key-positions = <0 2 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(GRAVE) W>;
         };
         
         combo_0123 {
             timeout-ms = <100>;
             key-positions = <0 1 2 3>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(N0) H>;
         };
         
         combo_0124 {
             timeout-ms = <100>;
             key-positions = <0 1 2 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(SEMI) C>;
         };
         
         combo_0134 {
             timeout-ms = <100>;
             key-positions = <0 1 3 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(EQUAL) V>;
         };
         
         combo_0234 {
             timeout-ms = <100>;
             key-positions = <0 2 3 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(RBKT) J>;
         };
         
         combo_1234 {
             timeout-ms = <100>;
             key-positions = <1 2 3 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(LBKT) R>;
         };
         
         combo_124 {
             timeout-ms = <100>;
             key-positions = <1 2 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(BSLH) G>;
         };
         
         combo_013 {
             timeout-ms = <100>;
             key-positions = <0 1 3>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(MINUS) X>;
         };
         
         combo_134 {
             timeout-ms = <100>;
             key-positions = <1 3 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(SLASH) F>;
         };
         
         combo_023 {
             timeout-ms = <100>;
             key-positions = <0 2 3>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(SQT) Q>;
         };
         
         combo_014 {
             timeout-ms = <100>;
             key-positions = <0 1 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&skkp LGUI ENTER>; //sk kp 
         };
         
         combo_034 {
             timeout-ms = <100>;
             key-positions = <0 3 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt F5 P>;
         };
         
         combo_234 {
             timeout-ms = <100>;
             key-positions = <2 3 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&kpsk CAPS LSHIFT >; //requires custom behavior
         };
         
         combo_123 {
             timeout-ms = <100>;
             key-positions = <1 2 3>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt F11 BACKSPACE>;
         };
         
         combo_012 {
             timeout-ms = <100>;
             key-positions = <0 1 2>;
-            layer = <0>; //this needs to be active on both layers
+            layers = <0>; //this needs to be active on both layers
             bindings = <&ts SWITCH SWITCH >;
         };
         
         combo_01234 {
             timeout-ms = <100>;
             key-positions = <0 1 2 3 4>;
-            layer = <0>;
+            layers = <0>;
             bindings = <&mt LS(TAB) SPACE>;
         };
         
         combo_2_34 {
             timeout-ms = <100>; 
             bindings = <&kp LEFT>; 
-            layer = <1>;
+            layers = <1>;
             key-positions = <3 4>; 
         };
         
         combo_2_23 {
             timeout-ms = <100>;
             key-positions = <2 3>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp UP>;
         };
         
         combo_2_12 {
             timeout-ms = <100>;
             key-positions = <1 2>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp RIGHT>;
         };
         
         combo_2_01 {
             timeout-ms = <100>;
             key-positions = <0 1>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp N9>;
         };
         
         combo_2_24 {
             timeout-ms = <100>;
             key-positions = <2 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp DOT>;
         };
         
         combo_2_13 {
             timeout-ms = <100>;
             key-positions = <1 3>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp COMMA>;
         };
         
         combo_2_02 {
             timeout-ms = <100>;
             key-positions = <0 2>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp N8>;
         };
         
         combo_2_14 {
             timeout-ms = <100>;
             key-positions = <1 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp DOWN>;
         };
         
         combo_2_03 {
             timeout-ms = <100>;
             key-positions = <0 3>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp N7>;
         };
         
         combo_2_04 {
             timeout-ms = <100>;
             key-positions = <0 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp N6>;
         };
         
         combo_2_024 {
             timeout-ms = <100>;
             key-positions = <0 2 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp GRAVE>;
         };
         
         combo_2_0123 {
             timeout-ms = <100>;
             key-positions = <0 1 2 3>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp N0>;
         };
         
         combo_2_0124 {
             timeout-ms = <100>;
             key-positions = <0 1 2 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp SEMI>;
         };
         
         combo_2_0134 {
             timeout-ms = <100>;
             key-positions = <0 1 3 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp EQUAL>;
         };
         
         combo_2_0234 {
             timeout-ms = <100>;
             key-positions = <0 2 3 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp RBKT>;
         };
         
         combo_2_1234 {
             timeout-ms = <100>;
             key-positions = <1 2 3 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp LBKT>;
         };
         
         combo_2_124 {
             timeout-ms = <100>;
             key-positions = <1 2 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp BSLH>;
         };
         
         combo_2_013 {
             timeout-ms = <100>;
             key-positions = <0 1 3>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp MINUS>;
         };
         
         combo_2_134 {
             timeout-ms = <100>;
             key-positions = <1 3 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp SLASH>;
         };
         
         combo_2_023 {
             timeout-ms = <100>;
             key-positions = <0 2 3>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp SQT>;
         };
         
         combo_2_014 {
             timeout-ms = <100>;
             key-positions = <0 1 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&sk LCTRL>;
         };
         
         combo_2_034 {
             timeout-ms = <100>;
             key-positions = <0 3 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp ESC>;
         };
         
         combo_2_234 {
             timeout-ms = <100>;
             key-positions = <2 3 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&sk LALT >; //requires custom behavior
         };
         
         combo_2_123 {
             timeout-ms = <100>;
             key-positions = <1 2 3>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp DEL>;
         };
         
         combo_2_012 {
             timeout-ms = <100>;
             key-positions = <0 1 2>;
-            layer = <1>; //this needs to be active on both layers
+            layers = <1>; //this needs to be active on both layers
             bindings = <&tog SWITCH >;
         };
         
         combo_2_01234 {
             timeout-ms = <100>;
             key-positions = <0 1 2 3 4>;
-            layer = <1>;
+            layers = <1>;
             bindings = <&kp TAB>;
         };
         
