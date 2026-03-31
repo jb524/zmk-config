@@ -2,5 +2,5 @@
 
 # No whitespace after the comma or in your keyboard name!
 # Config name will be reused in Kconfig.defconfig
-config CHORD3XD
+config CHORD03XD
     def_bool $(shields_list_contains,chord03xD)
