@@ -22,6 +22,7 @@
             bindings = <&sk>, <&kp>;
             display-name = "sk-kp";
         };
+        
         kpsk: kp_sk {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
