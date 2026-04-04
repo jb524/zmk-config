@@ -32,12 +32,20 @@
     physical_layout: physical_layout { // First physical layout, use different naming for other layouts
         compatible = "zmk,physical-layout";
         display-name = "Default Layout";
+        kscan = <&kscan>; // Label of the kscan node, optional if all layouts use the same
         transform = <&default_transform>; // Label of the matrix transform for this layout
+        keys  //                     w   h     x    y     rot    rx    ry
+            = <&key_physical_attrs 100 100     0   50       0     0     0> // Row 1
+            , <&key_physical_attrs 100 100   100   25       0     0     0>
+            , <&key_physical_attrs 100 100   200    0       0     0     0>
+            , <&key_physical_attrs 100 100   300   25       0     0     0>
+            , <&key_physical_attrs 100 100   350   150       0     0     0>
+            ;
+    };
     };
     
     
     chosen {
-        zmk,kscan = &kscan;
         zmk,physical-layout = &physical_layout;
     };
 };
