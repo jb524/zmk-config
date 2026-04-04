@@ -33,7 +33,7 @@
             display-name = "kp-sk";
         };
         
-        zmkkp: zmk_sk {
+        zmksk: zmk_sk {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
@@ -42,7 +42,7 @@
             display-name = "zmk-kp";
         };
         
-        btsk: bt_kp {
+        btkp: bt_kp {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
