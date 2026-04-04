@@ -42,7 +42,6 @@
             , <&key_physical_attrs 100 100   350   150       0     0     0>
             ;
     };
-    };
     
     
     chosen {
