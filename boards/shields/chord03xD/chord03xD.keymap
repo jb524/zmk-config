@@ -388,14 +388,14 @@
             timeout-ms = <100>;
             key-positions = <0 3 4>;
             layers = <1>;
-            bindings = <&zmkkp A ESC>; //TODO add zmk_unlock for hold behavior
+            bindings = <&zmkkp A ESC>;
         };
         
         combo_2_234 {
             timeout-ms = <100>;
             key-positions = <2 3 4>;
             layers = <1>;
-            bindings = <&btsk BT_CLR_ALL LALT >; //TODO add bt_clear for hold behavior
+            bindings = <&btsk BT_CLR_ALL LALT >; 
         };
         
         combo_2_123 {
