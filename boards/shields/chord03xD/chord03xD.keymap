@@ -42,12 +42,12 @@
             display-name = "zmk-kp";
         };
         
-        btcsk: btc_sk {
+        btsk: bt_sk {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <200>;
-            bindings = <&BT_CLR_ALL &sk>;
+            bindings = <&bt>, <&sk>;
             display-name = "btc-sk";
         };
     };
@@ -395,7 +395,7 @@
             timeout-ms = <100>;
             key-positions = <2 3 4>;
             layers = <1>;
-            bindings = <&btcsk LALT >; //TODO add bt_clear for hold behavior
+            bindings = <&btsk BT_CLR_ALL LALT >; //TODO add bt_clear for hold behavior
         };
         
         combo_2_123 {
