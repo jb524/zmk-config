@@ -33,21 +33,21 @@
             display-name = "kp-sk";
         };
         
-        zmkkp: zmk_kp {
+        zmkkp: zmk_sk {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <200>;
-            bindings = <&studio_unlock>, <&kp>;
+            bindings = <&studio_unlock>, <&sk>;
             display-name = "zmk-kp";
         };
         
-        btsk: bt_sk {
+        btsk: bt_kp {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <200>;
-            bindings = <&bt>, <&sk>;
+            bindings = <&bt>, <&kp>;
             display-name = "btc-sk";
         };
     };
@@ -388,14 +388,14 @@
             timeout-ms = <100>;
             key-positions = <0 3 4>;
             layers = <1>;
-            bindings = <&zmkkp A ESC>;
+            bindings = <&btkp BT_CLR_ALL ESC>;
         };
         
         combo_2_234 {
             timeout-ms = <100>;
             key-positions = <2 3 4>;
             layers = <1>;
-            bindings = <&btsk BT_CLR_ALL LALT >; 
+            bindings = <&zmksk  A LALT >; 
         };
         
         combo_2_123 {
