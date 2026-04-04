@@ -381,7 +381,7 @@
             timeout-ms = <100>;
             key-positions = <0 1 4>;
             layers = <1>;
-            bindings = <&sk LCTRL>;
+            bindings = <&zmksk  A LCTRL>;
         };
         
         combo_2_034 {
@@ -395,7 +395,7 @@
             timeout-ms = <100>;
             key-positions = <2 3 4>;
             layers = <1>;
-            bindings = <&zmksk  A LALT >; 
+            bindings = <&sk LALT >; 
         };
         
         combo_2_123 {
