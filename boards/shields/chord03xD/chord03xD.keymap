@@ -31,6 +31,24 @@
             bindings = <&kp>, <&sk>;
             display-name = "kp-sk";
         };
+        
+        zmkkp: zmk_kp {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <1>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&zmk_unlock>, <&kp>;
+            display-name = "zmk-kp";
+        };
+        
+        btcsk: btc_sk {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <1>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&bt_clear>, <&sk>;
+            display-name = "btc-sk";
+        };
     };
     
     combos {
@@ -369,14 +387,14 @@
             timeout-ms = <100>;
             key-positions = <0 3 4>;
             layers = <1>;
-            bindings = <&kp ESC>;
+            bindings = <&zmkkp ESC>; //TODO add zmk_unlock for hold behavior
         };
         
         combo_2_234 {
             timeout-ms = <100>;
             key-positions = <2 3 4>;
             layers = <1>;
-            bindings = <&sk LALT >; //requires custom behavior
+            bindings = <&btcsk LALT >; //TODO add bt_clear for hold behavior
         };
         
         combo_2_123 {
