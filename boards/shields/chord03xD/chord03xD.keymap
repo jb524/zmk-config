@@ -35,10 +35,10 @@
         
         zmkkp: zmk_kp {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <200>;
-            bindings = <&studio_unlock &kp>;
+            bindings = <&studio_unlock>, <&kp>;
             display-name = "zmk-kp";
         };
         
@@ -388,7 +388,7 @@
             timeout-ms = <100>;
             key-positions = <0 3 4>;
             layers = <1>;
-            bindings = <&zmkkp ESC>; //TODO add zmk_unlock for hold behavior
+            bindings = <&zmkkp A ESC>; //TODO add zmk_unlock for hold behavior
         };
         
         combo_2_234 {
