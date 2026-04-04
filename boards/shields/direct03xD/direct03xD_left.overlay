@@ -20,9 +20,9 @@
 			    <&gpio1 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,//Pin_16
 			    <&gpio1 6  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,//Pin_17
 			    <&gpio1 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,//Pin_18
-			    <&gpio0 9  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>//Pin_21
+			    <&gpio0 9  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,//Pin_21
 			    <&gpio0 10  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,//Pin_20
-			    <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,//Pin_19
+			    <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>//Pin_19
 			    ;
 };
 

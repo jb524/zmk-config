@@ -49,14 +49,14 @@
         default_layer { // Layer 0
             display-name = "Base";
             bindings = <
-                &TEMP    &kp Q    &kp W    &kp E    &kp R    &kp T          
-                &TEMP    &kp A    &kp S    &kp D    &kp F    &kp G      
-                &TEMP    &mt_b LGUI Z    &kp X    &kp C        &kp V      &kp B  
+                &kp TAB    &kp Q    &kp W    &kp E    &kp R    &kp T          
+                &kp LCTRL    &kp A    &kp S    &kp D    &kp F    &kp G      
+                &kp LSHIFT    &mt_b LGUI Z    &kp X    &kp C        &kp V      &kp B  
                 &mo NAVI     &mo SYMB      &mt LCTRL TAB  
                       
-                &kp Y    &kp U    &kp I    &kp O    &kp P    &TEMP
-                &kp H    &kp J    &kp K    &kp L    &kp SEMICOLON    &TEMP
-                &kp N    &kp M    &kp COMMA    &kp DOT    &mt_b LALT  SLASH    &TEMP
+                &kp Y    &kp U    &kp I    &kp O    &kp P    &kp BACKSPACE
+                &kp H    &kp J    &kp K    &kp L    &kp SEMICOLON    &kp ENTER
+                &kp N    &kp M    &kp COMMA    &kp DOT    &mt_b LALT  SLASH    &kp RSHIFT
                 &td_shift    &kp SPACE     &mt LCTRL RET
                 
             >;
@@ -65,14 +65,14 @@
         symb_layer { //layer 1
             display-name = "Symbol";
             bindings = <
-                &TEMP    &kp GRAVE   &kp PERCENT    &kp PIPE         &kp AMPERSAND  &kp UNDERSCORE
-                &TEMP    &kp TILDE    &kp EXCLAMATION          &kp LEFT_BRACE    &kp LEFT_PARENTHESIS    &kp MINUS
-                &TEMP    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5                 
+                &kp TAB    &kp GRAVE   &kp PERCENT    &kp PIPE         &kp AMPERSAND  &kp UNDERSCORE
+                &kp LCTRL    &kp TILDE    &kp EXCLAMATION          &kp LEFT_BRACE    &kp LEFT_PARENTHESIS    &kp MINUS
+                &kp LSHIFT    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5                 
                 &none     &none            &none 
                 
-                &kp PLUS    &kp KP_SLASH   &kp BACKSLASH    &kp KP_PLUS    &kp KP_EQUAL    &TEMP
-                &kp EQUAL    &kp RIGHT_PARENTHESIS    &kp ASTERISK      &kp KP_MINUS            &kp DOUBLE_QUOTES    &TEMP
-                &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &TEMP
+                &kp PLUS    &kp KP_SLASH   &kp BACKSLASH    &kp KP_PLUS    &kp KP_EQUAL    &kp BACKSPACE
+                &kp EQUAL    &kp RIGHT_PARENTHESIS    &kp ASTERISK      &kp KP_MINUS            &kp DOUBLE_QUOTES    &kp ENTER
+                &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp RSHIFT
                 &trans    &kp BACKSPACE    &trans                                        
             >;
         };  
@@ -80,14 +80,14 @@
         navi_layer { //layer 2
             display-name = "Navigation";
             bindings = <
-                &TEMP    &kp ESCAPE      &kp HOME     &kp UP          &kp END      &kp PG_UP   
-                &TEMP    &kp K_MUTE      &kp LEFT          &kp DOWN          &kp RIGHT          &kp PG_DN   
-                &TEMP    &kp F1    &kp F2    &kp F3    &kp F4    &kp F5
+                &kp TAB    &kp ESCAPE      &kp HOME     &kp UP          &kp END      &kp PG_UP   
+                &kp LCTRL    &kp K_MUTE      &kp LEFT          &kp DOWN          &kp RIGHT          &kp PG_DN   
+                &kp LSHIFT    &kp F1    &kp F2    &kp F3    &kp F4    &kp F5
                 &none     &none         &none
                 
-                &kp C_VOL_UP    &mkp LCLK    &mmv MOVE_UP    &mkp RCLK    &msc SCRL_UP    &TEMP
-                &kp C_VOL_DN    &mmv MOVE_LEFT    &mmv MOVE_DOWN    &mmv MOVE_RIGHT    &msc SCRL_DOWN    &TEMP
-                &kp F6    &kp F7    &kp F8    &kp F9    &kp F10    &TEMP
+                &kp C_VOL_UP    &mkp LCLK    &mmv MOVE_UP    &mkp RCLK    &msc SCRL_UP    &kp BACKSPACE
+                &kp C_VOL_DN    &mmv MOVE_LEFT    &mmv MOVE_DOWN    &mmv MOVE_RIGHT    &msc SCRL_DOWN    &kp ENTER
+                &kp F6    &kp F7    &kp F8    &kp F9    &kp F10    &kp RSHIFT
                 &trans    &kp DELETE    &trans
             >;
         };
@@ -95,14 +95,14 @@
         config_layer { //layer 3
             display-name = "Config";
             bindings = <
-                &TEMP    &bootloader    &studio_unlock    &none    &none    &bt BT_SEL 0     
-                &TEMP    &bt BT_CLR_ALL    &none    &none    &none    &bt BT_SEL 1     
-                &TEMP    &bt BT_CLR    &none    &none    &none   &bt BT_SEL 2       
+                &kp TAB    &bootloader    &studio_unlock    &none    &none    &bt BT_SEL 0     
+                &kp LCTRL    &bt BT_CLR_ALL    &none    &none    &none    &bt BT_SEL 1     
+                &kp LSHIFT    &bt BT_CLR    &none    &none    &none   &bt BT_SEL 2       
                 &none   &none    &none 
                 
-                &bt BT_DISC 0          &none             &none    &none    &bootloader    &TEMP  
-                &bt BT_DISC 1    &none    &none    &none    &ceasar    &TEMP   
-                &bt BT_DISC 2          &none    &none    &noise    &morse    &TEMP   
+                &bt BT_DISC 0          &none             &none    &none    &bootloader    &kp BACKSPACE  
+                &bt BT_DISC 1    &none    &none    &none    &ceasar    &kp ENTER   
+                &bt BT_DISC 2          &none    &none    &noise    &morse    &kp RSHIFT   
                 &none   &none    &none
             >;
         }; 
