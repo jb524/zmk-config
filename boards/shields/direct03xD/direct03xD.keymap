@@ -11,16 +11,23 @@
 #define BASE 0
 #define SYMB 1
 #define NAVI 2
-#define CONF 3
+#define STENO 3
+#define CONF 4
 
 / {  
     combos {
         compatible = "zmk,combos";
         
-        combo_activate_layer_3 {
+        combo_activate_layer_conf {
             timeout-ms = <150>;
-            key-positions = <30 32>;
+            key-positions = <18 20>;
             bindings = <&mo CONF>;
+        };
+        
+        combo_activate_layer_steno {
+            timeout-ms = <150>;
+            key-positions = <1 20 26 39>;
+            bindings = <&tog STENO>;
         };
         
     };
@@ -49,7 +56,7 @@
         default_layer { // Layer 0
             display-name = "Base";
             bindings = <
-                &kp TAB    &kp Q    &kp W    &kp E    &kp R    &kp T          
+                &kp ESC    &kp Q    &kp W    &kp E    &kp R    &kp T          
                 &kp LCTRL    &kp A    &kp S    &kp D    &kp F    &kp G      
                 &kp LSHIFT    &mt_b LGUI Z    &kp X    &kp C        &kp V      &kp B  
                 &mo NAVI     &mo SYMB      &mt LCTRL TAB  
@@ -65,15 +72,15 @@
         symb_layer { //layer 1
             display-name = "Symbol";
             bindings = <
-                &kp TAB    &kp GRAVE   &kp PERCENT    &kp PIPE         &kp AMPERSAND  &kp UNDERSCORE
-                &kp LCTRL    &kp TILDE    &kp EXCLAMATION          &kp LEFT_BRACE    &kp LEFT_PARENTHESIS    &kp MINUS
-                &kp LSHIFT    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5                 
+                &none    &kp GRAVE   &kp PERCENT    &kp PIPE         &kp AMPERSAND  &kp UNDERSCORE
+                &none    &kp TILDE    &kp EXCLAMATION          &kp LEFT_BRACE    &kp LEFT_PARENTHESIS    &kp MINUS
+                &none    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5                 
                 &none     &none            &none 
                 
-                &kp PLUS    &kp KP_SLASH   &kp BACKSLASH    &kp KP_PLUS    &kp KP_EQUAL    &kp BACKSPACE
-                &kp EQUAL    &kp RIGHT_PARENTHESIS    &kp ASTERISK      &kp KP_MINUS            &kp DOUBLE_QUOTES    &kp ENTER
-                &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp RSHIFT
-                &kp N1    &kp BACKSPACE    &trans                                        
+                &kp PLUS    &kp KP_SLASH   &kp BACKSLASH    &kp KP_PLUS    &kp KP_EQUAL    &none
+                &kp EQUAL    &kp RIGHT_PARENTHESIS    &kp ASTERISK      &kp KP_MINUS            &kp DOUBLE_QUOTES    &none
+                &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &none
+                &none    &kp BACKSPACE    &none
             >;
         };  
 
@@ -85,24 +92,40 @@
                 &kp LSHIFT    &kp F1    &kp F2    &kp F3    &kp F4    &kp F5
                 &none     &none         &none
                 
-                &kp C_VOL_UP    &mkp LCLK    &mmv MOVE_UP    &mkp RCLK    &msc SCRL_UP    &kp BACKSPACE
-                &kp C_VOL_DN    &mmv MOVE_LEFT    &mmv MOVE_DOWN    &mmv MOVE_RIGHT    &msc SCRL_DOWN    &kp ENTER
-                &kp F6    &kp F7    &kp F8    &kp F9    &kp F10    &kp RSHIFT
-                &trans    &kp DELETE    &trans
+                &kp C_VOL_UP    &mkp LCLK    &mmv MOVE_UP    &mkp RCLK    &msc SCRL_UP    &kp C_PREV
+                &kp C_VOL_DN    &mmv MOVE_LEFT    &mmv MOVE_DOWN    &mmv MOVE_RIGHT    &msc SCRL_DOWN    &kp C_NEXT
+                &kp F6    &kp F7    &kp F8    &kp F9    &kp F10    &none
+                &none    &kp DELETE    &none
             >;
         };
         
-        config_layer { //layer 3
+        steno_layer { // Layer 3
+            display-name = "Steno";
+            bindings = <
+                &none    &kp Q    &kp W    &kp E    &kp R    &kp T          
+                &none    &kp A    &kp S    &kp D    &kp F    &kp G      
+                &none    &none   &none    &none        &none     &none
+                &none     &kp C      &kp V  
+                
+                &kp Y    &kp U    &kp I    &kp O    &kp P    &kp LBKT
+                &kp H    &kp J    &kp K    &kp L    &kp SEMICOLON    &kp SQT
+                &none    &none   &none    &none        &none     &none
+                &kp N    &kp M     &kp ENTER 
+                
+            >;
+        };
+        
+        config_layer { //layer 4
             display-name = "Config";
             bindings = <
-                &kp TAB    &bootloader    &studio_unlock    &none    &none    &bt BT_SEL 0     
-                &kp LCTRL    &bt BT_CLR_ALL    &none    &none    &none    &bt BT_SEL 1     
-                &kp LSHIFT    &bt BT_CLR    &none    &none    &none   &bt BT_SEL 2       
+                &bootloader    &studio_unlock    &none    &none    &none    &bt BT_SEL 0     
+                &bt BT_CLR_ALL    &none    &none    &none    &none    &bt BT_SEL 1     
+                &bt BT_CLR    &none    &none    &none    &none   &bt BT_SEL 2       
                 &none   &none    &none 
                 
-                &bt BT_DISC 0          &none             &none    &none    &bootloader    &kp BACKSPACE  
-                &bt BT_DISC 1    &none    &none    &none    &ceasar    &kp ENTER   
-                &bt BT_DISC 2          &none    &none    &noise    &morse    &kp RSHIFT   
+                &bt BT_DISC 0          &none             &none    &none    &none    &bootloader
+                &bt BT_DISC 1    &none    &none    &none    &none    &ceasar   
+                &bt BT_DISC 2          &none    &none    &noise    &none    &morse   
                 &none   &none    &none
             >;
         }; 
