@@ -79,8 +79,8 @@
                 
                 &kp PLUS    &kp KP_SLASH   &kp BACKSLASH    &kp KP_PLUS    &kp KP_EQUAL    &none
                 &kp EQUAL    &kp RIGHT_PARENTHESIS    &kp ASTERISK      &kp KP_MINUS            &kp DOUBLE_QUOTES    &none
-                &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &none
-                &none    &kp BACKSPACE    &none
+                &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp LSHFT
+                &kp LSHFT    &kp BACKSPACE    &none
             >;
         };  
 
