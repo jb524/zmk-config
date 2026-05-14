@@ -53,7 +53,7 @@
                 &kp SEMI         &kp P    &kp V    &kp X    &kp Q
                 
                 &mo NAVI    &kp E       &mo SYMB    
-                &kp SHIFT   &kp SPACE   &mt LCTRL RET                
+                &kp LSHIFT   &kp SPACE   &mt LCTRL RET                
             >;
         };
 
