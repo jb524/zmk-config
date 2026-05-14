@@ -1,0 +1,19 @@
+if SHIELD_EXP36_LEFT
+
+# Name must be less than 16 characters long!
+config ZMK_KEYBOARD_NAME
+    default "Exp36"
+
+#currently central is the left side
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_EXP36_LEFT || SHIELD_EXP36_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif
+	
