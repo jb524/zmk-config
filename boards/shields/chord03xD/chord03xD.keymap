@@ -98,20 +98,28 @@
             bindings = <&sl SWITCH>, <&tog SWITCH>, <&tog SYS>;
         };
 
+        // 1-cell wrapper for td_layer. ZMK hold-tap requires #binding-cells=<2>
+        // (const) and bare-phandle bindings whose cells sum to 2. td_layer is
+        // 0-cell, so this macro accepts a 1-cell filler arg (ignored) and taps
+        // td_layer. Used only as the tap-side of ht_mod_tdlayer.
+        td_layer_w: td_layer_w {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = <&macro_tap &td_layer>;
+        };
+
         // Hold-tap for combo_012:
         //   hold = sticky modifier (caller-provided; see combo_012 line)
-        //   tap  = td_layer (above, all baked)
-        // ZMK constraint: hold-tap bindings are bare phandles (no baked params),
-        // so the modifier MUST be passed at the combo invocation.
-        // Asymmetric cells: &sk=1, &td_layer=0, sum=1 => #binding-cells=<1>.
+        //   tap  = td_layer_w (wrapper -> td_layer)
+        // Caller passes 2 cells: cell[0] -> &sk (the mod), cell[1] -> td_layer_w (ignored).
         ht_mod_tdlayer: ht_mod_tdlayer {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&sk &td_layer>;
+            bindings = <&sk>, <&td_layer_w>;
         };
 
         // Tap-dance for combo_1_012:
@@ -135,18 +143,25 @@
             bindings = <&sk LSHIFT>, <&kt LSHIFT>;
         };
 
+        // 1-cell wrapper for td_mod. Same filler-arg trick as td_layer_w above.
+        td_mod_w: td_mod_w {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = <&macro_tap &td_mod>;
+        };
+
         // Hold-tap for combo_234:
         //   hold = sticky modifier (caller-provided; see combo_234 line)
-        //   tap  = td_mod (above, all baked)
-        // Same constraint as ht_mod_tdlayer above: bare phandles only.
+        //   tap  = td_mod_w (wrapper -> td_mod)
+        // Caller passes 2 cells: cell[0] -> &sk (the mod), cell[1] -> td_mod_w (ignored).
         ht_mod_tdmod: ht_mod_tdmod {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&sk &td_mod>;
+            bindings = <&sk>, <&td_mod_w>;
         };
     };
     
@@ -311,7 +326,7 @@
             timeout-ms = <50>;
             key-positions = <2 3 4>;
             layers = <0>;
-            bindings = <&ht_mod_tdmod LALT>; // hold-mod (only)
+            bindings = <&ht_mod_tdmod LALT 0>; // hold-mod, 0=filler
         };
         
         combo_123 {
@@ -325,7 +340,7 @@
             timeout-ms = <50>;
             key-positions = <0 1 2>;
             layers = <0>;
-            bindings = <&ht_mod_tdlayer LCTRL>; // hold-mod (only)
+            bindings = <&ht_mod_tdlayer LCTRL 0>; // hold-mod, 0=filler
         };
         
         combo_01234 {
