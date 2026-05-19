@@ -99,16 +99,19 @@
         };
 
         // Hold-tap for combo_012:
-        //   hold = sticky LCTRL    <== EDIT modifier here
-        //   tap  = td_layer (above)
+        //   hold = sticky modifier (caller-provided; see combo_012 line)
+        //   tap  = td_layer (above, all baked)
+        // ZMK constraint: hold-tap bindings are bare phandles (no baked params),
+        // so the modifier MUST be passed at the combo invocation.
+        // Asymmetric cells: &sk=1, &td_layer=0, sum=1 => #binding-cells=<1>.
         ht_mod_tdlayer: ht_mod_tdlayer {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <1>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&sk LCTRL>, <&td_layer>;
+            bindings = <&sk &td_layer>;
         };
 
         // Tap-dance for combo_1_012:
@@ -133,16 +136,17 @@
         };
 
         // Hold-tap for combo_234:
-        //   hold = sticky LALT             <== EDIT modifier here
-        //   tap  = td_mod (above)
+        //   hold = sticky modifier (caller-provided; see combo_234 line)
+        //   tap  = td_mod (above, all baked)
+        // Same constraint as ht_mod_tdlayer above: bare phandles only.
         ht_mod_tdmod: ht_mod_tdmod {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <1>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&sk LALT>, <&td_mod>;
+            bindings = <&sk &td_mod>;
         };
     };
     
@@ -307,7 +311,7 @@
             timeout-ms = <50>;
             key-positions = <2 3 4>;
             layers = <0>;
-            bindings = <&ht_mod_tdmod>;
+            bindings = <&ht_mod_tdmod LALT>; // hold-mod (only)
         };
         
         combo_123 {
@@ -321,7 +325,7 @@
             timeout-ms = <50>;
             key-positions = <0 1 2>;
             layers = <0>;
-            bindings = <&ht_mod_tdlayer>;
+            bindings = <&ht_mod_tdlayer LCTRL>; // hold-mod (only)
         };
         
         combo_01234 {
