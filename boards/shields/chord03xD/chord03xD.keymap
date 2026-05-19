@@ -80,84 +80,69 @@
             display-name = "htk";
         };
 
-        // --- Generic building blocks for combo_012 / combo_1_012 / combo_234 ---
-        // Naming convention: structure-first, not key-first.
-        //   td_*  = tap-dance     (1-tap vs 2-tap)
-        //   ht_*  = hold-tap      (hold vs tap)
-        //   Suffix describes the slot TYPES, not specific keycodes.
+        // --- Behaviors for combo_012 / combo_1_012 / combo_234 ---
+        // ZMK constraint: tap-dance requires #binding-cells=<0> and all
+        // sub-bindings fully pre-parameterized. Hold-tap forwards params,
+        // but here we keep everything 0-cell for symmetry and simplicity.
+        // To change a modifier/layer: edit the marked "<== EDIT" line in
+        // the behavior body. The combo invocation line stays untouched.
 
-        // Param-discarding wrapper: accepts 1 cell (ignored), fires &tog SYS.
-        // Used by td_layer as the structural "drill down to system layer" branch.
-        tog_SYS: tog_SYS {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings = <&macro_tap &tog SYS>;
-        };
-
-        // Tap-dance: 1 tap = sticky layer, 2 taps = toggle layer, 3 taps = toggle SYS.
-        // Param (1): layer number (used by 1-tap and 2-tap; ignored by 3-tap which
-        // fires the structurally-fixed SYS layer toggle).
-        //              Use: &td_layer SWITCH
+        // Tap-dance for combo_012 tap side:
+        //   1 tap  = sticky SWITCH layer
+        //   2 taps = toggle SWITCH layer
+        //   3 taps = toggle SYS layer (drill to system layer)
         td_layer: td_layer {
             compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <1>;
+            #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&sl>, <&tog>, <&tog_SYS>;
+            bindings = <&sl SWITCH>, <&tog SWITCH>, <&tog SYS>;
         };
 
-        // Hold-tap: hold = sticky modifier, tap = td_layer.
-        // Params (2): modifier keycode, layer number.
-        // Use: &ht_mod_tdlayer LCTRL SWITCH    <-- used by combo_012
+        // Hold-tap for combo_012:
+        //   hold = sticky LCTRL    <== EDIT modifier here
+        //   tap  = td_layer (above)
         ht_mod_tdlayer: ht_mod_tdlayer {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
+            #binding-cells = <0>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&sk>, <&td_layer>;
+            bindings = <&sk LCTRL>, <&td_layer>;
         };
 
-        // Param-discarding wrapper: accepts 1 cell (ignored), fires &tog SWITCH.
-        // Needed because tap-dance requires all sub-bindings to share #binding-cells.
-        // The SWITCH layer is baked in (structural to combo_1_012's "exit" purpose).
-        tog_SW: tog_SW {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings = <&macro_tap &tog SWITCH>;
-        };
-
-        // Tap-dance: 1 tap = sticky modifier, 2 taps = toggle SWITCH layer off.
-        // Param (1): modifier keycode. Forwarded to &sk; ignored by tog_SW.
-        // Use: &td_mod_togSW LCTRL             <-- used by combo_1_012
+        // Tap-dance for combo_1_012:
+        //   1 tap  = sticky LCTRL          <== EDIT modifier here
+        //   2 taps = toggle SWITCH off (structural; leave as-is)
         td_mod_togSW: td_mod_togSW {
             compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <1>;
+            #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&sk>, <&tog_SW>;
+            bindings = <&sk LCTRL>, <&tog SWITCH>;
         };
 
-        // Tap-dance: 1 tap = sticky modifier, 2 taps = locked modifier (same key).
-        // Param (1): modifier keycode (forwarded to both &sk and &kt).
-        // &kt = key-toggle: first invocation latches the mod on, second releases it.
+        // Tap-dance for combo_234 tap side:
+        //   1 tap  = sticky LSHIFT         <== EDIT mod here (must match 2-tap)
+        //   2 taps = locked LSHIFT (kt)    <== EDIT mod here (must match 1-tap)
+        // &kt = key-toggle: first invocation latches the mod, second releases it.
         td_mod: td_mod {
             compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <1>;
+            #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&sk>, <&kt>;
+            bindings = <&sk LSHIFT>, <&kt LSHIFT>;
         };
 
-        // Hold-tap: hold = sticky modifier, tap = td_mod.
-        // Params (2): hold-mod keycode, tap-mod keycode.
-        // Use: &ht_mod_tdmod LALT LSHIFT       <-- used by combo_234
+        // Hold-tap for combo_234:
+        //   hold = sticky LALT             <== EDIT modifier here
+        //   tap  = td_mod (above)
         ht_mod_tdmod: ht_mod_tdmod {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
+            #binding-cells = <0>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&sk>, <&td_mod>;
+            bindings = <&sk LALT>, <&td_mod>;
         };
     };
     
@@ -322,7 +307,7 @@
             timeout-ms = <50>;
             key-positions = <2 3 4>;
             layers = <0>;
-            bindings = <&ht_mod_tdmod LALT LSHIFT>; // hold-mod, tap-mod (sk/kt)
+            bindings = <&ht_mod_tdmod>;
         };
         
         combo_123 {
@@ -336,7 +321,7 @@
             timeout-ms = <50>;
             key-positions = <0 1 2>;
             layers = <0>;
-            bindings = <&ht_mod_tdlayer LCTRL SWITCH>; // hold-mod, sl/tog-layer
+            bindings = <&ht_mod_tdlayer>;
         };
         
         combo_01234 {
@@ -518,7 +503,7 @@
             timeout-ms = <50>;
             key-positions = <0 1 2>;
             layers = <1>;
-            bindings = <&td_mod_togSW LCTRL>; // 1tap mod, 2tap exits SWITCH
+            bindings = <&td_mod_togSW>;
         };
         
         combo_1_01234 {
