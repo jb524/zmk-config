@@ -3,6 +3,7 @@
 #include <dt-bindings/zmk/bt.h>
 
 #define SWITCH 1
+#define SYS 2
 
 / {
     behaviors {
@@ -11,6 +12,8 @@
             #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
             bindings = <&tog>, <&sl>;
             display-name = "tog-sl";
         };
@@ -20,6 +23,8 @@
             #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
             bindings = <&sk>, <&kp>;
             display-name = "sk-kp";
         };
@@ -29,6 +34,8 @@
             #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
             bindings = <&kp>, <&sk>;
             display-name = "kp-sk";
         };
@@ -38,6 +45,8 @@
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
             bindings = <&studio_unlock>, <&sk>;
             display-name = "zmk-kp";
         };
@@ -47,8 +56,108 @@
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
             bindings = <&bt>, <&kp>;
             display-name = "btc-sk";
+        };
+
+        // Tuned key-key hold-tap. Drop-in replacement for built-in &mt.
+        // Why custom: the built-in &mt's timing knobs aren't tunable in-place,
+        // and its default flavor is hold-preferred which is too aggressive for
+        // our case (holds here are non-mod things: HOME, F-keys, modded symbols
+        // like LS(N5)='%'). Tap-preferred biases toward the letter/tap unless
+        // the keys are clearly held past tapping-term with nothing else happening.
+        // Use: &htk HOLD_KEY TAP_KEY  (everywhere &htk was used)
+        htk: htk {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
+            bindings = <&kp>, <&kp>;
+            display-name = "htk";
+        };
+
+        // --- Generic building blocks for combo_012 / combo_1_012 / combo_234 ---
+        // Naming convention: structure-first, not key-first.
+        //   td_*  = tap-dance     (1-tap vs 2-tap)
+        //   ht_*  = hold-tap      (hold vs tap)
+        //   Suffix describes the slot TYPES, not specific keycodes.
+
+        // Param-discarding wrapper: accepts 1 cell (ignored), fires &tog SYS.
+        // Used by td_layer as the structural "drill down to system layer" branch.
+        tog_SYS: tog_SYS {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = <&macro_tap &tog SYS>;
+        };
+
+        // Tap-dance: 1 tap = sticky layer, 2 taps = toggle layer, 3 taps = toggle SYS.
+        // Param (1): layer number (used by 1-tap and 2-tap; ignored by 3-tap which
+        // fires the structurally-fixed SYS layer toggle).
+        //              Use: &td_layer SWITCH
+        td_layer: td_layer {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <1>;
+            tapping-term-ms = <200>;
+            bindings = <&sl>, <&tog>, <&tog_SYS>;
+        };
+
+        // Hold-tap: hold = sticky modifier, tap = td_layer.
+        // Params (2): modifier keycode, layer number.
+        // Use: &ht_mod_tdlayer LCTRL SWITCH    <-- used by combo_012
+        ht_mod_tdlayer: ht_mod_tdlayer {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
+            bindings = <&sk>, <&td_layer>;
+        };
+
+        // Param-discarding wrapper: accepts 1 cell (ignored), fires &tog SWITCH.
+        // Needed because tap-dance requires all sub-bindings to share #binding-cells.
+        // The SWITCH layer is baked in (structural to combo_1_012's "exit" purpose).
+        tog_SW: tog_SW {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = <&macro_tap &tog SWITCH>;
+        };
+
+        // Tap-dance: 1 tap = sticky modifier, 2 taps = toggle SWITCH layer off.
+        // Param (1): modifier keycode. Forwarded to &sk; ignored by tog_SW.
+        // Use: &td_mod_togSW LCTRL             <-- used by combo_1_012
+        td_mod_togSW: td_mod_togSW {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <1>;
+            tapping-term-ms = <200>;
+            bindings = <&sk>, <&tog_SW>;
+        };
+
+        // Tap-dance: 1 tap = sticky modifier, 2 taps = locked modifier (same key).
+        // Param (1): modifier keycode (forwarded to both &sk and &kt).
+        // &kt = key-toggle: first invocation latches the mod on, second releases it.
+        td_mod: td_mod {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <1>;
+            tapping-term-ms = <200>;
+            bindings = <&sk>, <&kt>;
+        };
+
+        // Hold-tap: hold = sticky modifier, tap = td_mod.
+        // Params (2): hold-mod keycode, tap-mod keycode.
+        // Use: &ht_mod_tdmod LALT LSHIFT       <-- used by combo_234
+        ht_mod_tdmod: ht_mod_tdmod {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
+            bindings = <&sk>, <&td_mod>;
         };
     };
     
@@ -56,369 +165,496 @@
         compatible = "zmk,combos";
         
         combo_34 {
-            timeout-ms = <100>; // 100 ms to press all keys
-            bindings = <&mt HOME N>; // output of the combo
+            timeout-ms = <50>; // 50 ms to press all keys
+            bindings = <&htk HOME N>; // output of the combo
             layers = <0>; //layers where the combo can be activated
             key-positions = <3 4>; // keys used in combo trigger
         };
         
         combo_23 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <2 3>;
             layers = <0>;
-            bindings = <&mt PG_UP T>;
+            bindings = <&htk PG_UP T>;
         };
         
         combo_12 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <1 2>;
             layers = <0>;
-            bindings = <&mt END L>;
+            bindings = <&htk END L>;
         };
         
         combo_01 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 1>;
             layers = <0>;
-            bindings = <&mt LS(N9) S>;
+            bindings = <&htk LS(N9) S>;
         };
         
         combo_24 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <2 4>;
             layers = <0>;
-            bindings = <&mt LS(DOT) D>;
+            bindings = <&htk LS(DOT) D>;
         };
         
         combo_13 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <1 3>;
             layers = <0>;
-            bindings = <&mt LS(COMMA) M>;
+            bindings = <&htk LS(COMMA) M>;
         };
         
         combo_02 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 2>;
             layers = <0>;
-            bindings = <&mt LS(N8) Z>;
+            bindings = <&htk LS(N8) Z>;
         };
         
         combo_14 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <1 4>;
             layers = <0>;
-            bindings = <&mt PG_DN K>;
+            bindings = <&htk PG_DN K>;
         };
         
         combo_03 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 3>;
             layers = <0>;
-            bindings = <&mt LS(N7) B>;
+            bindings = <&htk LS(N7) B>;
         };
         
         combo_04 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 4>;
             layers = <0>;
-            bindings = <&mt LS(N6) Y>;
+            bindings = <&htk LS(N6) Y>;
         };
         
         combo_024 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 2 4>;
             layers = <0>;
-            bindings = <&mt LS(GRAVE) W>;
+            bindings = <&htk LS(GRAVE) W>;
         };
         
         combo_0123 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 1 2 3>;
             layers = <0>;
-            bindings = <&mt LS(N0) H>;
+            bindings = <&htk LS(N0) H>;
         };
         
         combo_0124 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 1 2 4>;
             layers = <0>;
-            bindings = <&mt LS(SEMI) C>;
+            bindings = <&htk LS(SEMI) C>;
         };
         
         combo_0134 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 1 3 4>;
             layers = <0>;
-            bindings = <&mt LS(EQUAL) V>;
+            bindings = <&htk LS(EQUAL) V>;
         };
         
         combo_0234 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 2 3 4>;
             layers = <0>;
-            bindings = <&mt LS(RBKT) J>;
+            bindings = <&htk LS(RBKT) J>;
         };
         
         combo_1234 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <1 2 3 4>;
             layers = <0>;
-            bindings = <&mt LS(LBKT) R>;
+            bindings = <&htk LS(LBKT) R>;
         };
         
         combo_124 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <1 2 4>;
             layers = <0>;
-            bindings = <&mt LS(BSLH) G>;
+            bindings = <&htk LS(BSLH) G>;
         };
         
         combo_013 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 1 3>;
             layers = <0>;
-            bindings = <&mt LS(MINUS) X>;
+            bindings = <&htk LS(MINUS) X>;
         };
         
         combo_134 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <1 3 4>;
             layers = <0>;
-            bindings = <&mt LS(SLASH) F>;
+            bindings = <&htk LS(SLASH) F>;
         };
         
         combo_023 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 2 3>;
             layers = <0>;
-            bindings = <&mt LS(SQT) Q>;
+            bindings = <&htk LS(SQT) Q>;
         };
         
         combo_014 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 1 4>;
             layers = <0>;
-            bindings = <&skkp LGUI ENTER>; //sk kp 
+            bindings = <&htk F4 ENTER>; //kp kp 
         };
         
         combo_034 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 3 4>;
             layers = <0>;
-            bindings = <&mt F5 P>;
+            bindings = <&skkp LGUI P>;
         };
         
         combo_234 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <2 3 4>;
             layers = <0>;
-            bindings = <&kpsk CAPS LSHIFT >; //requires custom behavior
+            bindings = <&ht_mod_tdmod LALT LSHIFT>; // hold-mod, tap-mod (sk/kt)
         };
         
         combo_123 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <1 2 3>;
             layers = <0>;
-            bindings = <&mt F11 BACKSPACE>;
+            bindings = <&htk F11 BACKSPACE>;
         };
         
         combo_012 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 1 2>;
-            layers = <0>; //this needs to be active on both layers
-            bindings = <&ts SWITCH SWITCH >;
+            layers = <0>;
+            bindings = <&ht_mod_tdlayer LCTRL SWITCH>; // hold-mod, sl/tog-layer
         };
         
         combo_01234 {
-            timeout-ms = <100>;
+            timeout-ms = <50>;
             key-positions = <0 1 2 3 4>;
             layers = <0>;
-            bindings = <&mt LS(TAB) SPACE>;
+            bindings = <&htk LS(TAB) SPACE>;
         };
         
-        combo_2_34 {
-            timeout-ms = <100>; 
+        combo_1_34 {
+            timeout-ms = <50>; 
             bindings = <&kp LEFT>; 
             layers = <1>;
             key-positions = <3 4>; 
         };
         
-        combo_2_23 {
-            timeout-ms = <100>;
+        combo_1_23 {
+            timeout-ms = <50>;
             key-positions = <2 3>;
             layers = <1>;
             bindings = <&kp UP>;
         };
         
-        combo_2_12 {
-            timeout-ms = <100>;
+        combo_1_12 {
+            timeout-ms = <50>;
             key-positions = <1 2>;
             layers = <1>;
             bindings = <&kp RIGHT>;
         };
         
-        combo_2_01 {
-            timeout-ms = <100>;
+        combo_1_01 {
+            timeout-ms = <50>;
             key-positions = <0 1>;
             layers = <1>;
             bindings = <&kp N9>;
         };
         
-        combo_2_24 {
-            timeout-ms = <100>;
+        combo_1_24 {
+            timeout-ms = <50>;
             key-positions = <2 4>;
             layers = <1>;
             bindings = <&kp DOT>;
         };
         
-        combo_2_13 {
-            timeout-ms = <100>;
+        combo_1_13 {
+            timeout-ms = <50>;
             key-positions = <1 3>;
             layers = <1>;
             bindings = <&kp COMMA>;
         };
         
-        combo_2_02 {
-            timeout-ms = <100>;
+        combo_1_02 {
+            timeout-ms = <50>;
             key-positions = <0 2>;
             layers = <1>;
             bindings = <&kp N8>;
         };
         
-        combo_2_14 {
-            timeout-ms = <100>;
+        combo_1_14 {
+            timeout-ms = <50>;
             key-positions = <1 4>;
             layers = <1>;
             bindings = <&kp DOWN>;
         };
         
-        combo_2_03 {
-            timeout-ms = <100>;
+        combo_1_03 {
+            timeout-ms = <50>;
             key-positions = <0 3>;
             layers = <1>;
             bindings = <&kp N7>;
         };
         
-        combo_2_04 {
-            timeout-ms = <100>;
+        combo_1_04 {
+            timeout-ms = <50>;
             key-positions = <0 4>;
             layers = <1>;
             bindings = <&kp N6>;
         };
         
-        combo_2_024 {
-            timeout-ms = <100>;
+        combo_1_024 {
+            timeout-ms = <50>;
             key-positions = <0 2 4>;
             layers = <1>;
             bindings = <&kp GRAVE>;
         };
         
-        combo_2_0123 {
-            timeout-ms = <100>;
+        combo_1_0123 {
+            timeout-ms = <50>;
             key-positions = <0 1 2 3>;
             layers = <1>;
             bindings = <&kp N0>;
         };
         
-        combo_2_0124 {
-            timeout-ms = <100>;
+        combo_1_0124 {
+            timeout-ms = <50>;
             key-positions = <0 1 2 4>;
             layers = <1>;
             bindings = <&kp SEMI>;
         };
         
-        combo_2_0134 {
-            timeout-ms = <100>;
+        combo_1_0134 {
+            timeout-ms = <50>;
             key-positions = <0 1 3 4>;
             layers = <1>;
             bindings = <&kp EQUAL>;
         };
         
-        combo_2_0234 {
-            timeout-ms = <100>;
+        combo_1_0234 {
+            timeout-ms = <50>;
             key-positions = <0 2 3 4>;
             layers = <1>;
             bindings = <&kp RBKT>;
         };
         
-        combo_2_1234 {
-            timeout-ms = <100>;
+        combo_1_1234 {
+            timeout-ms = <50>;
             key-positions = <1 2 3 4>;
             layers = <1>;
             bindings = <&kp LBKT>;
         };
         
-        combo_2_124 {
-            timeout-ms = <100>;
+        combo_1_124 {
+            timeout-ms = <50>;
             key-positions = <1 2 4>;
             layers = <1>;
             bindings = <&kp BSLH>;
         };
         
-        combo_2_013 {
-            timeout-ms = <100>;
+        combo_1_013 {
+            timeout-ms = <50>;
             key-positions = <0 1 3>;
             layers = <1>;
             bindings = <&kp MINUS>;
         };
         
-        combo_2_134 {
-            timeout-ms = <100>;
+        combo_1_134 {
+            timeout-ms = <50>;
             key-positions = <1 3 4>;
             layers = <1>;
             bindings = <&kp SLASH>;
         };
         
-        combo_2_023 {
-            timeout-ms = <100>;
+        combo_1_023 {
+            timeout-ms = <50>;
             key-positions = <0 2 3>;
             layers = <1>;
             bindings = <&kp SQT>;
         };
         
-        combo_2_014 {
-            timeout-ms = <100>;
+        combo_1_014 {
+            timeout-ms = <50>;
             key-positions = <0 1 4>;
             layers = <1>;
-            bindings = <&zmksk  A LCTRL>;
+            bindings = <&kp ESC>;
         };
         
-        combo_2_034 {
-            timeout-ms = <100>;
+        combo_1_034 {
+            timeout-ms = <50>;
             key-positions = <0 3 4>;
             layers = <1>;
-            bindings = <&btkp BT_CLR_ALL ESC>;
+            bindings = <&sk LGUI>;
         };
         
-        combo_2_234 {
-            timeout-ms = <100>;
+        combo_1_234 {
+            timeout-ms = <50>;
             key-positions = <2 3 4>;
             layers = <1>;
-            bindings = <&sk LALT >; 
+            bindings = <&sk LALT>; 
         };
         
-        combo_2_123 {
-            timeout-ms = <100>;
+        combo_1_123 {
+            timeout-ms = <50>;
             key-positions = <1 2 3>;
             layers = <1>;
             bindings = <&kp DEL>;
         };
         
-        combo_2_012 {
-            timeout-ms = <100>;
+        combo_1_012 {
+            timeout-ms = <50>;
             key-positions = <0 1 2>;
-            layers = <1>; //this needs to be active on both layers
-            bindings = <&tog SWITCH >;
+            layers = <1>;
+            bindings = <&td_mod_togSW LCTRL>; // 1tap mod, 2tap exits SWITCH
         };
         
-        combo_2_01234 {
-            timeout-ms = <100>;
+        combo_1_01234 {
+            timeout-ms = <50>;
             key-positions = <0 1 2 3 4>;
             layers = <1>;
             bindings = <&kp TAB>;
         };
-        
+
+        // --- Layer 2 (SYS) combos: F-keys, page nav, BT, Studio, exit ---
+
+        // F-keys F6..F12 (F1..F5 are on sys_layer single keys)
+        combo_2_04 {
+            timeout-ms = <50>;
+            key-positions = <0 4>;
+            layers = <SYS>;
+            bindings = <&kp F6>;
+        };
+
+        combo_2_03 {
+            timeout-ms = <50>;
+            key-positions = <0 3>;
+            layers = <SYS>;
+            bindings = <&kp F7>;
+        };
+
+        combo_2_02 {
+            timeout-ms = <50>;
+            key-positions = <0 2>;
+            layers = <SYS>;
+            bindings = <&kp F8>;
+        };
+
+        combo_2_01 {
+            timeout-ms = <50>;
+            key-positions = <0 1>;
+            layers = <SYS>;
+            bindings = <&kp F9>;
+        };
+
+        combo_2_0123 {
+            timeout-ms = <50>;
+            key-positions = <0 1 2 3>;
+            layers = <SYS>;
+            bindings = <&kp F10>;
+        };
+
+        combo_2_013 {
+            timeout-ms = <50>;
+            key-positions = <0 1 3>;
+            layers = <SYS>;
+            bindings = <&kp F11>;
+        };
+
+        combo_2_0134 {
+            timeout-ms = <50>;
+            key-positions = <0 1 3 4>;
+            layers = <SYS>;
+            bindings = <&kp F12>;
+        };
+
+        // Page navigation (mirrors arrow-key positions on Layer 1)
+        combo_2_23 {
+            timeout-ms = <50>;
+            key-positions = <2 3>;
+            layers = <SYS>;
+            bindings = <&kp PG_UP>;
+        };
+
+        combo_2_14 {
+            timeout-ms = <50>;
+            key-positions = <1 4>;
+            layers = <SYS>;
+            bindings = <&kp PG_DN>;
+        };
+
+        combo_2_34 {
+            timeout-ms = <50>;
+            key-positions = <3 4>;
+            layers = <SYS>;
+            bindings = <&kp HOME>;
+        };
+
+        combo_2_12 {
+            timeout-ms = <50>;
+            key-positions = <1 2>;
+            layers = <SYS>;
+            bindings = <&kp END>;
+        };
+
+        // Bluetooth device selection (slots 0/1/2)
+        combo_2_1234 {
+            timeout-ms = <50>;
+            key-positions = <1 2 3 4>;
+            layers = <SYS>;
+            bindings = <&bt BT_SEL 0>;
+        };
+
+        combo_2_0234 {
+            timeout-ms = <50>;
+            key-positions = <0 2 3 4>;
+            layers = <SYS>;
+            bindings = <&bt BT_SEL 1>;
+        };
+
+        combo_2_124 {
+            timeout-ms = <50>;
+            key-positions = <1 2 4>;
+            layers = <SYS>;
+            bindings = <&bt BT_SEL 2>;
+        };
+
+        // Bluetooth clear (current profile -> back into advertising for re-pair)
+        combo_2_123 {
+            timeout-ms = <50>;
+            key-positions = <1 2 3>;
+            layers = <SYS>;
+            bindings = <&bt BT_CLR>;
+        };
+
+        // ZMK Studio unlock
+        combo_2_014 {
+            timeout-ms = <50>;
+            key-positions = <0 1 4>;
+            layers = <SYS>;
+            bindings = <&studio_unlock>;
+        };
+
+        // Exit SYS layer (direct toggle, no modifier needed here)
+        combo_2_012 {
+            timeout-ms = <50>;
+            key-positions = <0 1 2>;
+            layers = <SYS>;
+            bindings = <&tog SYS>;
+        };
+
     };
 
     keymap {
@@ -426,12 +662,17 @@
 
         base_layer {
             display-name = "Base";
-            bindings = < &mt LS(N5) U    &mt LS(N4) O    &mt LS(N3) I    &mt LS(N2) E   &mt LS(N1) A >;
+            bindings = < &htk LS(N5) U    &htk LS(N4) O    &htk LS(N3) I    &htk LS(N2) E   &htk LS(N1) A >;
         };
         
         switch_layer {
             display-name = "Switch";
             bindings = < &kp N5    &kp N4    &kp N3    &kp N2    &kp N1 >;
+        };
+
+        sys_layer {
+            display-name = "Sys";
+            bindings = < &kp F5    &kp F4    &kp F3    &kp F2    &kp F1 >;
         };
     };
  };
