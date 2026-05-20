@@ -7,17 +7,6 @@
 
 / {
     behaviors {
-        ts: tog_sl {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <100>;
-            bindings = <&tog>, <&sl_u>;
-            display-name = "tog-sl";
-        };
-        
         skkp: sk_kp {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -29,46 +18,13 @@
             display-name = "sk-kp";
         };
         
-        kpsk: kp_sk {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <100>;
-            bindings = <&kp>, <&sk_u>;
-            display-name = "kp-sk";
-        };
-        
-        zmksk: zmk_sk {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <100>;
-            bindings = <&studio_unlock>, <&sk_u>;
-            display-name = "zmk-kp";
-        };
-        
-        btkp: bt_kp {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <100>;
-            bindings = <&bt>, <&kp>;
-            display-name = "btc-sk";
-        };
-
         // Tuned key-key hold-tap. Drop-in replacement for built-in &mt.
         // Why custom: the built-in &mt's timing knobs aren't tunable in-place,
         // and its default flavor is hold-preferred which is too aggressive for
         // our case (holds here are non-mod things: HOME, F-keys, modded symbols
         // like LS(N5)='%'). Tap-preferred biases toward the letter/tap unless
         // the keys are clearly held past tapping-term with nothing else happening.
-        // Use: &htk HOLD_KEY TAP_KEY  (everywhere &htk was used)
+        // Use: &htk HOLD_KEY TAP_KEY  (everywhere &mt was used)
         htk: htk {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
