@@ -14,7 +14,7 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&tog>, <&sl>;
+            bindings = <&tog>, <&sl_u>;
             display-name = "tog-sl";
         };
         
@@ -25,7 +25,7 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&sk>, <&kp>;
+            bindings = <&sk_u>, <&kp>;
             display-name = "sk-kp";
         };
         
@@ -36,7 +36,7 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&kp>, <&sk>;
+            bindings = <&kp>, <&sk_u>;
             display-name = "kp-sk";
         };
         
@@ -47,7 +47,7 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&studio_unlock>, <&sk>;
+            bindings = <&studio_unlock>, <&sk_u>;
             display-name = "zmk-kp";
         };
         
@@ -87,15 +87,39 @@
         // To change a modifier/layer: edit the marked "<== EDIT" line in
         // the behavior body. The combo invocation line stays untouched.
 
+        // Uniform sticky-key. Drop-in replacement for built-in &sk so that
+        // release-after-ms is exposed for tuning. We use 5000 ms vs ZMK's
+        // default 1000 ms so that holding a combo for several seconds before
+        // pressing the modified key doesn't let the sticky auto-expire.
+        // Use &sk_u everywhere &sk was used.
+        sk_u: sk_u {
+            compatible = "zmk,behavior-sticky-key";
+            #binding-cells = <1>;
+            bindings = <&kp>;
+            release-after-ms = <5000>;
+        };
+
+        // Uniform sticky-layer, analog of sk_u for layers.
+        // ZMK's &sl is just a sticky-key wrapping &mo with a 1000 ms timeout;
+        // we mirror that with the same 5000 ms release window for symmetry.
+        sl_u: sl_u {
+            compatible = "zmk,behavior-sticky-key";
+            #binding-cells = <1>;
+            bindings = <&mo>;
+            release-after-ms = <5000>;
+        };
+
         // Tap-dance for combo_012 tap side:
         //   1 tap  = sticky SWITCH layer
         //   2 taps = toggle SWITCH layer
-        //   3 taps = toggle SYS layer (drill to system layer)
+        // SYS layer entry was previously a 3-tap branch here; it has been moved
+        // to combo_1_012's hold (via ht_layer_tdtog below) — easier to execute
+        // reliably than a 3-finger triple-tap.
         td_layer: td_layer {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&sl SWITCH>, <&tog SWITCH>, <&tog SYS>;
+            bindings = <&sl_u SWITCH>, <&tog SWITCH>;
         };
 
         // 1-cell wrapper for td_layer. ZMK hold-tap requires #binding-cells=<2>
@@ -119,17 +143,42 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&sk>, <&td_layer_w>;
+            bindings = <&sk_u>, <&td_layer_w>;
         };
 
-        // Tap-dance for combo_1_012:
+        // Tap-dance for combo_1_012 tap side:
         //   1 tap  = sticky LCTRL          <== EDIT modifier here
         //   2 taps = toggle SWITCH off (structural; leave as-is)
+        // Wrapped by ht_layer_tdtog below so the tap-dance press events are
+        // dispatched at combo *release* (same as td_layer for combo_012),
+        // keeping the timing model uniform across all tap-dance combos.
         td_mod_togSW: td_mod_togSW {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&sk LCTRL>, <&tog SWITCH>;
+            bindings = <&sk_u LCTRL>, <&tog SWITCH>;
+        };
+
+        // 1-cell wrapper for td_mod_togSW (analog of td_layer_w).
+        td_mod_togSW_w: td_mod_togSW_w {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = <&macro_tap &td_mod_togSW>;
+        };
+
+        // Hold-tap for combo_1_012:
+        //   hold = toggle a layer (caller-provided, expected SYS for layer 2)
+        //   tap  = td_mod_togSW_w (wrapper -> td_mod_togSW)
+        // Same symmetric 1+1-cell structure as ht_mod_tdlayer.
+        // Caller passes 2 cells: cell[0] -> &tog (the layer), cell[1] -> wrapper (ignored).
+        ht_layer_tdtog: ht_layer_tdtog {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <100>;
+            bindings = <&tog>, <&td_mod_togSW_w>;
         };
 
         // Tap-dance for combo_234 tap side:
@@ -140,7 +189,7 @@
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&sk LSHIFT>, <&kt LSHIFT>;
+            bindings = <&sk_u LSHIFT>, <&kt LSHIFT>;
         };
 
         // 1-cell wrapper for td_mod. Same filler-arg trick as td_layer_w above.
@@ -161,7 +210,7 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <100>;
-            bindings = <&sk>, <&td_mod_w>;
+            bindings = <&sk_u>, <&td_mod_w>;
         };
     };
     
@@ -501,14 +550,14 @@
             timeout-ms = <50>;
             key-positions = <0 3 4>;
             layers = <1>;
-            bindings = <&sk LGUI>;
+            bindings = <&sk_u LGUI>;
         };
         
         combo_1_234 {
             timeout-ms = <50>;
             key-positions = <2 3 4>;
             layers = <1>;
-            bindings = <&sk LALT>; 
+            bindings = <&sk_u LALT>; 
         };
         
         combo_1_123 {
@@ -522,7 +571,7 @@
             timeout-ms = <50>;
             key-positions = <0 1 2>;
             layers = <1>;
-            bindings = <&td_mod_togSW>;
+            bindings = <&ht_layer_tdtog SYS 0>; // hold=tog SYS, 0=filler
         };
         
         combo_1_01234 {
